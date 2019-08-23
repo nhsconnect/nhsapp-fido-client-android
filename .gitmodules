@@ -1,0 +1,4 @@
+[submodule "maven"]
+	path = maven
+	url = https://git.nhschoices.net/nhsonline/nhsonline-fido-client-android-maven.git
+	branch = master
