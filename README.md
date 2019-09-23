@@ -61,11 +61,19 @@ GenericFidoException
 
 ## Contribute
 
-We appreciate contributions and there are several ways you can help. For more information, see our [contributing guidelines](/contributing.md).
+We appreciate contributions and there are several ways you can help. For more information, see our [contributing guidelines](/CONTRIBUTING.md).
 
 ## Get in touch
 
 The FIDO UAF (Universal Authentication Framework) client for Android is maintained by NHS Digital. [Email us](mailto:nhsapp@nhs.net) or open a GitHub issue.
+
+### Reporting vulnerabilities
+
+If you believe you've found a vulnerability or security concern in the client, please report it to us:
+
+1. Submit a vulnerability report through [HackerOne's form](https://hackerone.com/2e6793b1-d580-4172-9ba3-04c98cdfb478/embedded_submissions/new).
+
+2. Put "FAO NHS Digital's NHS App team" in the first line of the description.
 
 ## License
 
