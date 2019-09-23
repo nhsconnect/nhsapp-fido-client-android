@@ -1,48 +1,76 @@
-# nhsonline-fido-client-android
+# FIDO UAF (Universal Authentication Framework) client for Android
 
-## Initial checkout
+You can use the FIDO UAF client to authenticate logging in to Android apps without a password.
 
-On intial checkout you will need to update the maven submodule directory.
-This is used to store the generated maven artifacts to allow them to be pulled into main Android applicaiton.
+Use it to:
 
+* register biometric details, such as fingerprint
+* authorise against registered biometric details
+
+We'll add the client to the public [Maven central repository](https://mvnrepository.com/repos/central) soon.
+
+## Requirements
+
+* Android Marshmallow or above
+* Minimum SDK 21, target SDK 27 and above
+
+## Installation
+
+To use the client in your own application, you need to add a Maven reference to your build configuration.
+
+## Getting started
+
+You need to generate and reference the Maven artifacts for your own project until they are available in the Maven central repository.
+
+### Generating Maven artifacts
+
+To generate a new set of Maven artifacts once you have made a code change:
+
+1. Update the pom version number in `fidoclient/build.gradle` if required.
+
+2. Build and publish the artifacts:
+
+    ```console
+    ./gradlew uploadArchives
+    ```
+
+3. You now have a local Maven repository in the FIDO UAF client's `maven` folder. Reference this in your Android build configuration. For example:
+
+    ```console
+    allprojects {
+      repositories {
+        maven {
+          "file:./path/to/fido/client/maven"
+        }
+      }
+    }
+    dependencies {
+      implementation 'com.nhs.online.fidoclient:fidoclient:1.0.3'
+    }
+    ```
+
+### Error handling
+
+The client throws the following errors:
+
+```java
+FidoAssertionException
+FidoInvalidSignatureException
+GenericFidoException
 ```
-git submodule update
-cd maven
-git pull
-```
 
-## Generating Maven Artifacts
+## Contribute
 
-To generate a new set of maven artifacts once you have made a code change:
+We appreciate contributions and there are several ways you can help. For more information, see our [contributing guidelines](/contributing.md).
 
-Update the pom version number in `fidoclient/build.gradle`
+## Get in touch
 
-Build and publish the artifacts:
+The FIDO UAF (Universal Authentication Framework) client for Android is maintained by NHS Digital. [Email us](mailto:nhsapp@nhs.net) or open a GitHub issue.
 
-```
-./gradlew uploadArchives
-```
+## License
 
-Commit and push the submodule
+The codebase is released under the MIT License, unless stated otherwise. This covers both the codebase and any sample code in the documentation.
 
-```
-cd maven
-git add .
-git commit -m 'publish version 1.x.x'
-git push origin master
-```
+The FIDO UAF (Universal Authentication Framework) client for Android is based on an open source implementation created by [eBay](https://github.com/eBay/UAF). eBay's project has an [Apache 2.0 license](https://github.com/eBay/UAF/blob/master/LICENSE), which permits commercial use and modifications.
 
-Finally; commit the updated submodule commit id to git:
-
-```
-cd ..
-git add .
-git commit -m 'update submodule reference'
-git push
-```
-
-## Ebay Implementation
-
-This FIDO UAF client is based on an open-source implementation created by eBay (https://github.com/eBay/UAF). The project is covered by an Apache 2.0 licence, therefore allowing both commercial use and modifications. The licence is available [here](https://github.com/eBay/UAF/blob/master/LICENSE).
-
-Only a subset of the eBay implementation has been used, and those files that have, have been converted to Kotlin from Java, and most have been heavily modified. The original copyright notices on each converted file have been retained.
+We use a subset of eBay's implementation. We converted those files we used from Java to Kotlin and we heavily modified most of them. The original copyright notices on each converted file are retained.
