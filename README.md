@@ -65,10 +65,9 @@ We appreciate contributions and there are several ways you can help. For more in
 
 ## Get in touch
 
-The FIDO UAF (Universal Authentication Framework) client for Android is maintained by NHS Digital. [Email us](mailto:nhsapp@nhs.net) or open a GitHub issue.
+The FIDO UAF (Universal Authentication Framework) client for Android is maintained by NHS Digital. [Email us](mailto:nhsapp@nhs.net) or open a [GitHub issue](https://github.com/nhsconnect/nhsapp-fido-client-android/issues/new).
 
-### Reporting vulnerabilities
-
+### Reporting vulnerabi
 If you believe you've found a vulnerability or security concern in the client, please report it to us:
 
 1. Submit a vulnerability report through [HackerOne's form](https://hackerone.com/2e6793b1-d580-4172-9ba3-04c98cdfb478/embedded_submissions/new).
