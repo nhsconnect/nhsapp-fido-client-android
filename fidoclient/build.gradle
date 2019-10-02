@@ -40,3 +40,13 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file:./maven")
+            pom.groupId = 'com.nhs.online.fidoclient'
+            pom.version = '1.0.3'
+        }
+    }
+}
