@@ -1,0 +1,39 @@
+name: nhsapp-fido-client-android CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+
+    env:
+      ORG_GRADLE_PROJECT_MAVEN_PGP_SIGNING_KEY: ${{ secrets.MAVEN_PGP_SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_MAVEN_PGP_SIGNING_PASSWORD: ${{ secrets.MAVEN_PGP_SIGNING_PASSWORD }}
+      ORG_GRADLE_PROJECT_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      ORG_GRADLE_PROJECT_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Remove default GitHub Maven settings
+      run: rm ~/.m2/settings.xml
+
+    - name: Build and Publish to Maven repositories
+      if: github.ref == 'refs/heads/master'
+      run: ./gradlew build publish
+
+    - name: Build and Publish to Local Maven repository
+      if: github.ref != 'refs/heads/master'
+      run: ./gradlew build publishAllPublicationsToLocalMavenRepository
+
+    - name: Upload Local Maven repository
+      uses: actions/upload-artifact@v2
+      with:
+        name: local-maven-repository
+        path: /home/runner/work/nhsapp-fido-client-android/nhsapp-fido-client-android/fidoclient/build/maven

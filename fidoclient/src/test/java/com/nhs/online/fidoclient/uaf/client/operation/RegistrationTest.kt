@@ -5,9 +5,10 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.anyOrNull
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import com.nhs.online.fidoclient.uaf.SampleCert
 import com.nhs.online.fidoclient.uaf.client.RegAssertionBuilder
 import com.nhs.online.fidoclient.uaf.crypto.Base64url
@@ -21,7 +22,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyInt
 import org.robolectric.RobolectricTestRunner
 import java.security.KeyPair
 import java.security.PublicKey
@@ -58,7 +58,7 @@ class RegistrationTest {
         }
 
         mockRegistrationCall = mock {
-            on { getUafRegistrationMessage(any(), any(), any()) } doReturn "{}"
+            on { getUafRegistrationMessage(any<String>(), any<String>(), any<String>()) } doReturn "{}"
         }
 
         dataToReturn = byteArrayOf(1)
@@ -69,7 +69,7 @@ class RegistrationTest {
         packageInfo.signatures = arrayOf(signature)
 
         packageManager = mock {
-            on { getPackageInfo(any<String>(), anyInt()) } doReturn packageInfo
+            on { getPackageInfo(any<String>(), any<Int>()) } doReturn packageInfo
         }
 
         mockContext = mock {
@@ -81,7 +81,7 @@ class RegistrationTest {
                 Registration(mockRegistrationCall)
 
         mockFidoSigner = mock {
-            on { sign(any(), any()) } doReturn dataToReturn
+            on { sign(any<ByteArray>(), anyOrNull<KeyPair>()) } doReturn dataToReturn
         }
     }
 

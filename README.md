@@ -7,8 +7,6 @@ Use it to:
 * register biometric details, such as fingerprint
 * authorise against registered biometric details
 
-We'll add the client to the public [Maven central repository](https://mvnrepository.com/repos/central) soon.
-
 ## Requirements
 
 * Android Marshmallow or above
@@ -18,34 +16,38 @@ We'll add the client to the public [Maven central repository](https://mvnreposit
 
 To use the client in your own application, you need to add a Maven reference to your build configuration.
 
-## Getting started
-
-You need to generate and reference the Maven artifacts for your own project until they are available in the Maven central repository.
+Releases can be found on [Maven Central](https://mvnrepository.com/repos/central), or see the instructions below for makng changes and generating your own artifacts locally.
 
 ### Generating Maven artifacts
 
 To generate a new set of Maven artifacts once you have made a code change:
 
-1. Update the pom version number in `fidoclient/build.gradle` if required.
+1. Update the build version in `fidoclient/build.gradle`
 
-2. Build and publish the artifacts:
+    ```groovy
+    ext.build_version = '1.0.3-SNAPSHOT'
+    ```
+    Ensure to remove the `-SNAPSHOT` suffix for publishing to the releases repository.
+
+2. Build and publish the artifacts to the local Maven repository:
 
     ```console
-    ./gradlew uploadArchives
+    $ ./gradlew clean build publishAllPublicationsToLocalMavenRepository
     ```
 
-3. You now have a local Maven repository in the FIDO UAF client's `maven` folder. Reference this in your Android build configuration. For example:
+3. There are separate local repositories configured for snapshot and release builds. Reference the local snapshot Maven repository in your Android project.
 
-    ```console
+    ```groovy
     allprojects {
       repositories {
         maven {
-          "file:./path/to/fido/client/maven"
+          "file:./path/to/nhsapp-fido-client-android/fidoclient/build/maven/snapshots"
         }
       }
     }
+
     dependencies {
-      implementation 'com.nhs.online.fidoclient:fidoclient:1.0.3'
+      implementation 'io.github.nhsconnect:fido-uaf-client-android:1.0.3-SNAPSHOT'
     }
     ```
 

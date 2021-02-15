@@ -1,9 +1,10 @@
 package com.nhs.online.fidoclient.uaf.tlv
 
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.anyOrNull
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import com.nhs.online.fidoclient.uaf.crypto.FidoSigner
 import com.nhs.online.fidoclient.uaf.SampleCert
 import com.nhs.online.fidoclient.uaf.client.AuthAssertionBuilder
@@ -45,7 +46,7 @@ class TlvAssertionParserTest {
             on { private } doReturn getPrivateKey()
         }
         mockFidoSigner = mock {
-            on { sign(any(), any()) } doReturn byteArrayOf(1)
+            on { sign(any<ByteArray>(), anyOrNull<KeyPair>()) } doReturn byteArrayOf(1)
         }
 
         authAssertionBuilder = AuthAssertionBuilder(mockFidoSigner, mockKeyPair)
