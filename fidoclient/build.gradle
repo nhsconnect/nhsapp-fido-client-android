@@ -1,19 +1,26 @@
+plugins {
+    id 'net.linguica.maven-settings' version '0.5'
+    id 'digital.wup.android-maven-publish' version '3.6.3'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven'
+apply plugin: 'signing'
+
+ext.build_version = '1.0.3'
 
 android {
     compileSdkVersion 27
-
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName build_version
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -22,7 +29,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -32,21 +38,78 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.8'
-    testImplementation 'com.nhaarman:mockito-kotlin:1.5.0'
+    testImplementation 'org.robolectric:robolectric:4.3.1'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-repositories {
-    mavenCentral()
-}
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "file:./maven")
-            pom.groupId = 'com.nhs.online.fidoclient'
-            pom.version = '1.0.3'
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            groupId = 'io.github.nhsconnect'
+            artifactId = 'fido-uaf-client-android'
+            version = build_version
+
+            from components.android
+
+            pom {
+                name = 'FIDO UAF (Universal Authentication Framework) client for Android'
+                description = 'You can use the FIDO UAF client to authenticate logging in to Android apps without a password.'
+                url = 'https://github.com/nhsconnect/nhsapp-fido-client-android'
+
+                packaging = 'aar'
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://github.com/nhsconnect/nhsapp-fido-client-android/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'nhsapp'
+                        name = 'NHS App'
+                        email = 'nhsapp@nhs.net'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:https://github.com/nhsconnect/nhsapp-fido-client-android.git'
+                    developerConnection = 'scm:git:https://github.com/nhsconnect/nhsapp-fido-client-android.git'
+                    url = 'https://github.com/nhsconnect/nhsapp-fido-client-android'
+                }
+            }
         }
     }
+
+    repositories {
+        maven {
+            name = 'LocalMaven'
+            url = build_version.endsWith('-SNAPSHOT')
+                ? "$buildDir/maven/snapshots"
+                : "$buildDir/maven/releases"
+        }
+
+        maven {
+            name = 'OSSRH'
+            url = build_version.endsWith('-SNAPSHOT')
+                ? 'https://oss.sonatype.org/content/repositories/snapshots/'
+                : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = findProperty("OSSRH_USERNAME")
+                password = findProperty("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(findProperty("MAVEN_PGP_SIGNING_KEY"), findProperty("MAVEN_PGP_SIGNING_PASSWORD"))
+    sign publishing.publications.mavenAar
+}
+
+tasks.withType(Sign) {
+    onlyIf { findProperty('MAVEN_PGP_SIGNING_KEY') && findProperty('MAVEN_PGP_SIGNING_PASSWORD') }
 }
