@@ -7,6 +7,10 @@ Use it to:
 * register biometric details, such as fingerprint
 * authorise against registered biometric details
 
+## Releases
+
+[![Maven central](https://img.shields.io/maven-central/v/io.github.nhsconnect/fido-uaf-client-android?style=flat-square)](https://mvnrepository.com/artifact/io.github.nhsconnect/fido-uaf-client-android)
+
 ## Requirements
 
 * Android Marshmallow or above
@@ -16,7 +20,7 @@ Use it to:
 
 To use the client in your own application, you need to add a Maven reference to your build configuration.
 
-Releases can be found on [Maven Central](https://mvnrepository.com/repos/central), or see the instructions below for makng changes and generating your own artifacts locally.
+Releases can be found on [Maven Central](https://mvnrepository.com/artifact/io.github.nhsconnect/fido-uaf-client-android), or see the instructions below for making changes and generating your own artifacts locally.
 
 ### Generating Maven artifacts
 
